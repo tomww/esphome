@@ -17,6 +17,7 @@ static const uint16_t SDP3X_STOP_MEAS = 0x3FF9;
 void SDP3XComponent::update() { this->read_pressure_(); }
 
 void SDP3XComponent::setup() {
+  ESP_LOGW(TAG, "next dump I2C device info in setup");
   LOG_I2C_DEVICE(this);
   ESP_LOGW(TAG, "next write: SDP3X_STOP_MEAS");
   if (!this->write_command(SDP3X_STOP_MEAS)) {
