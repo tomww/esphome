@@ -17,20 +17,24 @@ static const uint16_t SDP3X_STOP_MEAS = 0x3FF9;
 void SDP3XComponent::update() { this->read_pressure_(); }
 
 void SDP3XComponent::setup() {
+  ESP_LOGW(TAG, "next write: SDP3X_STOP_MEAS");
   if (!this->write_command(SDP3X_STOP_MEAS)) {
     ESP_LOGW(TAG, "Stop failed");  // This sometimes fails for no good reason
   }
 
+  ESP_LOGW(TAG, "next write: SDP3X_SOFT_RESET");
   if (!this->write_command(SDP3X_SOFT_RESET)) {
     ESP_LOGW(TAG, "Soft Reset failed");  // This sometimes fails for no good reason
   }
 
   this->set_timeout(20, [this] {
+    ESP_LOGW(TAG, "next write: SDP3X_READ_ID1");
     if (!this->write_command(SDP3X_READ_ID1)) {
       ESP_LOGE(TAG, "Read ID1 failed");
       this->mark_failed();
       return;
     }
+    ESP_LOGW(TAG, "next write: SDP3X_READ_ID2");
     if (!this->write_command(SDP3X_READ_ID2)) {
       ESP_LOGE(TAG, "Read ID2 failed");
       this->mark_failed();
