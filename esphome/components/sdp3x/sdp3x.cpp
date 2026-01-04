@@ -89,6 +89,7 @@ void SDP3XComponent::setup() {
   });
 }
 void SDP3XComponent::dump_config() {
+  ESP_LOGW(TAG, "next write: dump config");
   LOG_SENSOR("  ", "SDP3X", this);
   LOG_I2C_DEVICE(this);
   if (this->is_failed()) {
