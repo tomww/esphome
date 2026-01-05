@@ -18,7 +18,7 @@ void SDP3XComponent::update() { this->read_pressure_(); }
 
 void SDP3XComponent::setup() {
   ESP_LOGW(TAG, "this is setup. delay 10000.");
-  delay(10);
+  delay(200);
   ESP_LOGW(TAG, "next dump I2C device info in setup");
   LOG_I2C_DEVICE(this);
   ESP_LOGW(TAG, "next write: SDP3X_STOP_MEAS");
