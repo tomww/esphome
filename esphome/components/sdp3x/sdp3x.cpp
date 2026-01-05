@@ -17,7 +17,7 @@ static const uint16_t SDP3X_STOP_MEAS = 0x3FF9;
 void SDP3XComponent::update() { this->read_pressure_(); }
 
 void SDP3XComponent::setup() {
-  ESP_LOGW(TAG, "this is setup. delay 10000.");
+  ESP_LOGW(TAG, "this is setup. delay 200.");
   delay(200);
   ESP_LOGW(TAG, "next dump I2C device info in setup");
   LOG_I2C_DEVICE(this);
@@ -26,11 +26,14 @@ void SDP3XComponent::setup() {
     ESP_LOGW(TAG, "Stop failed");  // This sometimes fails for no good reason
   }
 
+  // reset 0x0006 meeds to go to goes to address 0x00
   ESP_LOGW(TAG, "next write: SDP3X_SOFT_RESET");
   if (!this->write_command(SDP3X_SOFT_RESET)) {
     ESP_LOGW(TAG, "Soft Reset failed");  // This sometimes fails for no good reason
   }
 
+  // wait at least 2ms after a reset
+  delay(200);
   this->set_timeout(20, [this] {
     ESP_LOGW(TAG, "next write: SDP3X_READ_ID1");
     if (!this->write_command(SDP3X_READ_ID1)) {
